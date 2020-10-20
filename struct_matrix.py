@@ -3,7 +3,7 @@ import numpy
 
 
 
-
+canvas = [[[[]]]]
 
 def sphere_make(canvas, r, o_pos):#canvas:画布,r:半径,o_pos:圆心位置
     def distance(p_pos):
@@ -27,8 +27,8 @@ def sphere_make(canvas, r, o_pos):#canvas:画布,r:半径,o_pos:圆心位置
                 pos_index[depth] = i
                 recursion(depth + 1, i)
     n = 0
-    box_info = numpy.shape(canvas)
-    depth_max = numpy.ndim(o_pos) - 1  # 这里是维数-1
+    box_info = list(numpy.shape(canvas))
+    depth_max = len(box_info) - 1  # 这里是维数-1
     pos_index = []
     for k in range(depth_max + 1):
         pos_index.append(0)
