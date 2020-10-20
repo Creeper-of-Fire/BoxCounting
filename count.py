@@ -12,12 +12,12 @@ def count(image, box_info, e):
         nonlocal pos_index
         pos_index[depth] = p
         if depth == depth_max:
-            if count_box(image, pos_index, e) >= 1:
+            if count_box(image, pos_index, e, depth_max) >= 1:
                 n += 1
         else:
             for i in range(box_info[depth]):
                 recursion(depth + 1, i)
-    n = 0
+    n = 0.0
     depth_max = len(box_info) - 1  # 这里是维数-1
     pos_index = []
     for k in range(depth_max + 1):
@@ -27,10 +27,10 @@ def count(image, box_info, e):
     return n
 
 
-def count_box(image, index_list, e):
+def count_box(image, index_list, e, depth_max):
     def recursion(data, index_list, depth):  # 递归
         # print(data)
-        if type(data) == numpy.uint8:
+        if depth > depth_max:
             if data >= 1:
                 return 1
             else:
@@ -66,22 +66,23 @@ def liner_fitting(data_x, data_y):
     return_b = average_y-average_x*return_k
     return [return_k, return_b]
 
-
-image = stm.sketch()
+canvas = numpy.zeros([160,160,160,160], numpy.uint8)
+#image = stm.sketch('Kokoro2.png')
+image = sm.sphere_make(canvas,40,[80,80,80,80])
 x = []
 y = []
-for e in numpy.arange(1.5,6,0.5):
+for e in numpy.arange(1.5,8,0.5):
     info = list(numpy.shape(image))  # 长宽高等
     for i in range(len(info)):
         info[i] = int(info[i] / e)  # 按照边长进行划分，得到长宽高方向的格子数
     print('ε={}'.format(e))
     print('划分后大小：'+str(info))
     ne = count(image, info, e)
-    y.append(math.log(ne))
-    x.append(math.log(1/e))
     print('N(ε)={}'.format(ne))
     print('log(N(ε))={}'.format(math.log(ne)))
+    y.append(math.log(ne))
     print('log(1/ε)={}'.format(math.log(1/e)))
+    x.append(math.log(1/e))
     print('dim_box(S)={}'.format(math.log(ne)/math.log(1/e)))
 
 kb = liner_fitting(x,y)
