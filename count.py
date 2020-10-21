@@ -66,12 +66,12 @@ def liner_fitting(data_x, data_y):
     return_b = average_y-average_x*return_k
     return [return_k, return_b]
 
-canvas = numpy.zeros([160,160,160,160], numpy.uint8)
-#image = stm.sketch('Kokoro2.png')
-image = sm.sphere_make(canvas,40,[80,80,80,80])
+canvas = numpy.zeros([60,60,60], numpy.uint8)
+image = stm.sketch('Kokoro.png')
+#image = sm.sphere_make(canvas,5,[1,1,1])
 x = []
 y = []
-for e in numpy.arange(1.5,8,0.5):
+for e in numpy.arange(1.1,1.5,0.1):
     info = list(numpy.shape(image))  # 长宽高等
     for i in range(len(info)):
         info[i] = int(info[i] / e)  # 按照边长进行划分，得到长宽高方向的格子数
